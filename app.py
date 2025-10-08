@@ -3,7 +3,6 @@ from fastapi import FastAPI, HTTPException, status, Request
 from fastapi.responses import JSONResponse
 from openai import AsyncOpenAI
 import uvicorn
-import json
 from model.client import QuoteResponse, QuoteRequest
 from modules.mock import get_prompt
 from modules.utils import calculate_totals
