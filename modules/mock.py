@@ -9,7 +9,7 @@ async def get_prompt(request, total, mode) -> Literal[dict, str]:
         if lang == "ar":
             prompt = MOCK_LLM_AR.format(
                 client_name=request["client"]["name"],
-                currency=request["currency"],
+                currency=request.get("currency","SAR"),
                 items="\n".join(
                     [
                         f"- {item['qty']} x {item['sku']}"
@@ -17,15 +17,15 @@ async def get_prompt(request, total, mode) -> Literal[dict, str]:
                     ]
                 ),
                 grand_total=total,
-                delivery_terms=request["delivery_terms"],
-                notes=request["notes"],
+                delivery_terms=request.get("delivery_terms",""),
+                notes=request.get("notes",""),
             )
             subject = MOCK_LLM_SUBJECT_AR.format(client_name=request["client"]["name"])
             return {"subject": subject, "body": prompt}
         else:
             prompt = MOCK_LLM_EN.format(
                 client_name=request["client"]["name"],
-                currency=request["currency"],
+                currency=request.get("currency","SAR"),
                 items="\n".join(
                     [
                         f"- {item['qty']} x {item['sku']}"
@@ -33,8 +33,8 @@ async def get_prompt(request, total, mode) -> Literal[dict, str]:
                     ]
                 ),
                 grand_total=total,
-                delivery_terms=request["delivery_terms"],
-                notes=request["notes"],
+                delivery_terms=request.get("delivery_terms"),
+                notes=request.get("notes"),
             )
             subject = MOCK_LLM_SUBJECT_EN.format(client_name=request["client"]["name"])
             prompt = {"subject": subject, "body": prompt}
@@ -44,7 +44,7 @@ async def get_prompt(request, total, mode) -> Literal[dict, str]:
         prompt = LLM_PROMPT.format(
             lang=lang,
             delivery_terms=request["delivery_terms"],
-            currency=request["currency"],
+            currency=request.get("currency","SAR"),
             items="\n".join(
                 [
                     f"- {item['qty']} x {item['sku']}"
@@ -53,7 +53,7 @@ async def get_prompt(request, total, mode) -> Literal[dict, str]:
             ),
             grand_total=total,
             client_name=request["client"]["name"],
-            notes=request["notes"],
+            notes=request.get("notes",""),
         )
         return prompt
 

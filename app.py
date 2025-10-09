@@ -56,7 +56,6 @@ async def generate_quote(request: QuoteRequest):
         request = request.dict()
         if os.getenv("OPENAI_API_KEY"):
             prompt = await get_prompt(request=request,total=grand_total,mode="openai")
-
             client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
             response = await client.responses.parse(
                 model="gpt-4o-2024-08-06",
